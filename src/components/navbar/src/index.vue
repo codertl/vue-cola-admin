@@ -7,7 +7,7 @@
       <breadcrumb :breadcrumbs="breadcrumbs"></breadcrumb>
     </div>
     <div class="info">
-      <el-icon :size="18">
+      <el-icon :size="18" @click="toggle()">
         <full-screen />
       </el-icon>
       <div class="user">
@@ -27,6 +27,11 @@ import { mapPathToBreadcrumbs } from '@/utils/map-menus'
 
 import Breadcrumb from '@/components/breadcrumb'
 import avatar from '@/assets/avatar.jpg'
+
+import { useFullscreen } from '@vueuse/core'
+
+// 全屏切换
+const { toggle } = useFullscreen()
 const emit = defineEmits(['changeFold'])
 const isFold = ref(false)
 const handleFold = () => {

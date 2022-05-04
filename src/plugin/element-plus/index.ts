@@ -12,7 +12,10 @@ import {
   ElScrollbar,
   ElBreadcrumb,
   ElBreadcrumbItem,
-  ElAvatar
+  ElAvatar,
+  ElRow,
+  ElCol,
+  ElCard
 } from 'element-plus'
 
 const components = [
@@ -28,7 +31,10 @@ const components = [
   ElScrollbar,
   ElBreadcrumb,
   ElBreadcrumbItem,
-  ElAvatar
+  ElAvatar,
+  ElRow,
+  ElCol,
+  ElCard
 ]
 
 export default function (app: App) {
