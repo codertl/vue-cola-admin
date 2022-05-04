@@ -1,10 +1,7 @@
 <template>
-  <div></div>
+  <router-view></router-view>
 </template>
 
-<script setup lang="ts">
-import Login from '@/views/login.vue'
-console.log(Login)
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>
