@@ -8,43 +8,55 @@ export default defineComponent({
 <script setup lang="ts">
 import BaseEchart from '@/base-ui/echart'
 import * as echarts from 'echarts'
-let dataAxis = [
-  '点',
-  '击',
-  '柱',
-  '子',
-  '或',
-  '者',
-  '两',
-  '指',
-  '在',
-  '触',
-  '屏',
-  '上',
-  '滑',
-  '动',
-  '能',
-  '够',
-  '自',
-  '动',
-  '缩',
-  '放'
-]
-let data = [
-  220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334,
-  198, 123, 125, 220
-]
-let yMax = 500
-let dataShadow: number[] = []
-for (let i = 0; i < data.length; i++) {
-  dataShadow.push(yMax)
+
+interface IData {
+  name: string[]
+  favor: number[]
 }
+const props = withDefaults(
+  defineProps<{
+    data: IData
+  }>(),
+  {
+    data: () => ({
+      name: [
+        '点',
+        '击',
+        '柱',
+        '子',
+        '或',
+        '者',
+        '两',
+        '指',
+        '在',
+        '触',
+        '屏',
+        '上',
+        '滑',
+        '动',
+        '能',
+        '够',
+        '自',
+        '动',
+        '缩',
+        '放'
+      ],
+      favor: [
+        220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122,
+        133, 334, 198, 123, 125, 220
+      ]
+    })
+  }
+)
 const option: echarts.EChartsOption = {
   title: {
     text: '可以缩放'
   },
+  tooltip: {
+    trigger: 'item'
+  },
   xAxis: {
-    data: dataAxis,
+    data: props.data.name,
     axisLabel: {
       inside: true,
       color: '#fff'
@@ -93,7 +105,7 @@ const option: echarts.EChartsOption = {
           ])
         }
       },
-      data: data
+      data: props.data.favor
     }
   ]
 }

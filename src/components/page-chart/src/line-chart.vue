@@ -8,18 +8,36 @@ export default defineComponent({
 <script setup lang="ts">
 import BaseEchart from '@/base-ui/echart'
 import * as echarts from 'echarts'
+interface IData {
+  name: string[]
+  count: number[]
+}
+const props = withDefaults(
+  defineProps<{
+    data: IData
+  }>(),
+  {
+    data: () => ({
+      name: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      count: [820, 932, 901, 934, 1290, 1330, 1320]
+    })
+  }
+)
 const option: echarts.EChartsOption = {
+  tooltip: {
+    trigger: 'item'
+  },
   xAxis: {
     type: 'category',
     boundaryGap: false,
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    data: props.data.name
   },
   yAxis: {
     type: 'value'
   },
   series: [
     {
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      data: props.data.count,
       type: 'line',
       areaStyle: {}
     }

@@ -3,5 +3,6 @@ import LineChart from './src/line-chart.vue'
 import MapChart from './src/map-chart.vue'
 import RoseChart from './src/rose-chart.vue'
 import PieChart from './src/pie-chart.vue'
+import Loading from './src/loading.vue'
 
-export { BarChart, LineChart, MapChart, RoseChart, PieChart }
+export { BarChart, LineChart, MapChart, RoseChart, PieChart, Loading }
