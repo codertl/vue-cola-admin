@@ -1,11 +1,12 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, watchEffect } from 'vue'
 export default defineComponent({
   name: 'line-chart'
 })
 </script>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import BaseEchart from '@/base-ui/echart'
 import * as echarts from 'echarts'
 interface IData {
@@ -18,31 +19,33 @@ const props = withDefaults(
   }>(),
   {
     data: () => ({
-      name: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      count: [820, 932, 901, 934, 1290, 1330, 1320]
+      name: [],
+      count: []
     })
   }
 )
-const option: echarts.EChartsOption = {
-  tooltip: {
-    trigger: 'item'
-  },
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: props.data.name
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: props.data.count,
-      type: 'line',
-      areaStyle: {}
-    }
-  ]
-}
+const option = computed<echarts.EChartsOption>(() => {
+  return {
+    tooltip: {
+      trigger: 'item'
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: props.data.name
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        data: props.data.count,
+        type: 'line',
+        areaStyle: {}
+      }
+    ]
+  }
+})
 </script>
 
 <template>

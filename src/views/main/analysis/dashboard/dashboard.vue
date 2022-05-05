@@ -22,6 +22,7 @@ const dashboardStore = useDashboardStore()
 // 请求图表数据
 dashboardStore.getChartData()
 
+// 分类商品数量
 const categoryGoodsCount = computed(() => {
   dashboardStore.categoryGoodsCount
   return dashboardStore.categoryGoodsCount?.map((item) => {
@@ -31,7 +32,7 @@ const categoryGoodsCount = computed(() => {
     }
   })
 })
-
+// 分类商品销量
 const categoryGoodsSale = computed(() => {
   const name: string[] = []
   const count: number[] = []
@@ -44,6 +45,7 @@ const categoryGoodsSale = computed(() => {
     count
   }
 })
+// 分类商品收藏
 const categoryGoodsFavor = computed(() => {
   const name: string[] = []
   const favor: number[] = []
