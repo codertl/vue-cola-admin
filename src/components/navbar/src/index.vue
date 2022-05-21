@@ -10,17 +10,28 @@
       <el-icon :size="18" @click="toggle()">
         <full-screen />
       </el-icon>
-      <div class="user">
-        <el-avatar :size="28" :src="avatar" />
-        <span>{{ userInfo?.name }}</span>
-      </div>
+
+      <el-dropdown trigger="click">
+        <div class="user" ref="buttonRef">
+          <el-avatar :size="28" :src="avatar" />
+          <span>{{ userInfo?.name }}</span>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              ><span @click="handleLogout">退出登录</span></el-dropdown-item
+            >
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+
       <el-icon :size="18"><setting /></el-icon>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, unref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { mapPathToBreadcrumbs } from '@/utils/map-menus'
@@ -29,7 +40,7 @@ import Breadcrumb from '@/components/breadcrumb'
 import avatar from '@/assets/avatar.jpg'
 
 import { useFullscreen } from '@vueuse/core'
-
+import { ClickOutside as vClickOutside } from 'element-plus'
 // 全屏切换
 const { toggle } = useFullscreen()
 const emit = defineEmits(['changeFold'])
@@ -52,6 +63,12 @@ const breadcrumbs = computed(() => {
 
 // 用户信息
 const userInfo = computed(() => userStore.userInfo)
+
+// 退出登录
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  location.reload()
+}
 </script>
 
 <style scoped lang="less">

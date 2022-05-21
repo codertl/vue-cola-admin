@@ -22,7 +22,23 @@ const handleIsCollapse = (isFold: boolean) => {
         <navbar @changeFold="handleIsCollapse" />
         <nav-tags />
       </el-header>
-      <el-main><router-view></router-view></el-main>
+      <el-scrollbar>
+        <el-main style="height: 100vh">
+          <router-view v-slot="{ Component, route }">
+            <transition
+              :name="route.meta.transition || 'fade-transform'"
+              mode="out-in"
+              appear
+            >
+              <component
+                :is="Component"
+                :key="route.path"
+                class="main-content"
+              ></component>
+            </transition>
+          </router-view>
+        </el-main>
+      </el-scrollbar>
     </el-container>
   </el-container>
 </template>
@@ -51,5 +67,19 @@ const handleIsCollapse = (isFold: boolean) => {
 }
 ::v-deep(.el-header) {
   padding: 0;
+}
+
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+}
+.fade-transform-enter-leave-active {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

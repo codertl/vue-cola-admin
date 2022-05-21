@@ -15,7 +15,14 @@ import {
   ElAvatar,
   ElRow,
   ElCol,
-  ElCard
+  ElCard,
+  ElDropdown,
+  ElForm,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
+  ElConfigProvider
 } from 'element-plus'
 
 const components = [
@@ -34,7 +41,14 @@ const components = [
   ElAvatar,
   ElRow,
   ElCol,
-  ElCard
+  ElCard,
+  ElDropdown,
+  ElForm,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
+  ElConfigProvider
 ]
 
 export default function (app: App) {

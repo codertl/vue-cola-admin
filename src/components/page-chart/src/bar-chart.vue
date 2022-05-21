@@ -16,7 +16,7 @@ interface IData {
 }
 const props = withDefaults(
   defineProps<{
-    data: IData
+    data?: IData
   }>(),
   {
     data: () => ({
