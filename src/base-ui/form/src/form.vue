@@ -2,7 +2,7 @@
 import { IFormItem, IColLayout } from '../types'
 const props = withDefaults(
   defineProps<{
-    formData: any
+    modelValue: any
     formItems: IFormItem[]
     labelWidth?: string
     itemStyle?: any
@@ -22,12 +22,12 @@ const props = withDefaults(
 )
 const emit = defineEmits(['update:modelValue'])
 const handleValueChange = (value: string, field: string) => {
-  emit('update:modelValue', { ...props.formData, [field]: value })
+  emit('update:modelValue', { ...props.modelValue, [field]: value })
 }
 </script>
 
 <template>
-  <el-form :label-width="labelWidth" :model="formData">
+  <el-form :label-width="labelWidth">
     <el-row>
       <template v-for="(item, index) in formItems" :key="item.field">
         <el-col v-bind="colLayout">
@@ -40,10 +40,10 @@ const handleValueChange = (value: string, field: string) => {
             <!-- 渲染 默认input 或者 password  -->
             <template v-if="item.type === 'input' ?? 'password'">
               <el-input
-                :type="item.type"
+                :type="item.type === 'password' ? 'password' : ''"
                 :placeholder="item.placeholder"
                 :show-password="item.type === 'password'"
-                v-model="formData[item.field]"
+                :modelValue="modelValue[`${item.field}`]"
                 @update:modelValue="handleValueChange($event, item.field)"
                 clearable
               ></el-input>
@@ -51,7 +51,8 @@ const handleValueChange = (value: string, field: string) => {
             <!-- 渲染 select选择器 -->
             <template v-if="item.type === 'select'">
               <el-select
-                v-model="formData[item.field]"
+                :modelValue="modelValue[item.field]"
+                @update:modelValue="handleValueChange($event, item.field)"
                 :placeholder="item.placeholder"
                 style="width: 100%"
                 clearable
@@ -69,7 +70,8 @@ const handleValueChange = (value: string, field: string) => {
             <!-- 渲染 日期选择器 -->
             <template v-if="item.type === 'datepicker'">
               <el-date-picker
-                v-model="formData[item.field]"
+                :modelValue="modelValue[item.field]"
+                @update:modelValue="handleValueChange($event, item.field)"
                 v-bind="item.otherOptions"
                 style="width: 100%"
               >
@@ -90,4 +92,9 @@ const handleValueChange = (value: string, field: string) => {
   </el-form>
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+::v-deep(.el-input__inner),
+::v-deep(.el-button) {
+  height: 38px;
+}
+</style>

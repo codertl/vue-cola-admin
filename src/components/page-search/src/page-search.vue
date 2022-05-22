@@ -30,7 +30,7 @@ const handleSearch = () => {
 
 <template>
   <div class="page-search">
-    <tl-form v-bind="searchFormConfig" :formData="formData">
+    <tl-form v-bind="searchFormConfig" v-model="formData">
       <template #handle>
         <el-button :icon="Search" type="primary" @click="handleSearch"
           >查询</el-button
