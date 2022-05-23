@@ -23,7 +23,7 @@ const handleIsCollapse = (isFold: boolean) => {
         <nav-tags />
       </el-header>
       <el-scrollbar>
-        <el-main style="height: 100vh">
+        <el-main>
           <router-view v-slot="{ Component, route }">
             <transition
               :name="route.meta.transition || 'fade-transform'"

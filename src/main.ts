@@ -17,11 +17,9 @@ const app = createApp(App)
 app.use(pinia)
 const userStore = useUserStore()
 userStore.initState()
-console.log('1')
 app.use(router)
 app.use(MotionPlugin)
 app.use(elementPlus)
-
 app.mount('#app')
 
 //注册全局 element-icons 组件

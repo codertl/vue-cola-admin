@@ -38,9 +38,9 @@ const handleValueChange = (value: string, field: string) => {
             :style="itemStyle"
           >
             <!-- 渲染 默认input 或者 password  -->
-            <template v-if="item.type === 'input' ?? 'password'">
+            <template v-if="item.type === 'input' || item.type === 'password'">
               <el-input
-                :type="item.type === 'password' ? 'password' : ''"
+                :type="item.type === 'password' ? 'password' : 'text'"
                 :placeholder="item.placeholder"
                 :show-password="item.type === 'password'"
                 :modelValue="modelValue[`${item.field}`]"

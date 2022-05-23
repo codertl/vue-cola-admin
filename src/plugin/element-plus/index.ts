@@ -22,7 +22,12 @@ import {
   ElSelect,
   ElOption,
   ElDatePicker,
-  ElConfigProvider
+  ElConfigProvider,
+  ElTable,
+  ElTableColumn,
+  ElPagination,
+  ElDivider,
+  ElSwitch
 } from 'element-plus'
 
 const components = [
@@ -48,7 +53,12 @@ const components = [
   ElSelect,
   ElOption,
   ElDatePicker,
-  ElConfigProvider
+  ElConfigProvider,
+  ElTable,
+  ElTableColumn,
+  ElPagination,
+  ElDivider,
+  ElSwitch
 ]
 
 export default function (app: App) {
