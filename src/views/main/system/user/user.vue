@@ -4,10 +4,6 @@ import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
 import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
-import { useSystemStore } from '@/stores/system'
-const systemStore = useSystemStore()
-systemStore.getUserList()
-const userList = computed(() => systemStore.userList)
 const handleDeleteClick = (item: any) => {
   console.log(item)
 }
@@ -21,9 +17,9 @@ const handleEditClick = (item: any) => {
     <page-search :searchFormConfig="searchFormConfig"></page-search>
     <page-content
       :contentTableConfig="contentTableConfig"
-      :tableData="userList"
       @deleteClick="handleDeleteClick"
       @editClick="handleEditClick"
+      pageName="users"
     >
       <template #status="scope">
         <el-switch

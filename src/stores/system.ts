@@ -1,13 +1,19 @@
 import { defineStore } from 'pinia'
-import { getUserListData } from '@/network/api/main'
+import { getPageListData } from '@/network/api/main'
 export const useSystemStore = defineStore('system', {
   state: () => ({
-    userList: []
+    usersList: [],
+    usersCount: 0
   }),
   actions: {
-    async getUserList() {
-      const { list } = await getUserListData()
-      this.userList = list
+    async getPageList(payload: any) {
+      const pageUrl = `${payload.pageName}/list`
+      const { list, totalCount } = await getPageListData(
+        pageUrl,
+        payload.queryInfo
+      )
+      this.usersList = list
+      this.usersCount = totalCount
     }
   }
 })

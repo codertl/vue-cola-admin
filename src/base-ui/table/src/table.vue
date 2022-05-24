@@ -14,7 +14,7 @@ const props = withDefaults(
     showIndexColumn?: boolean
     showSelectColumn?: boolean
     page?: IPage
-    listCount?: number
+    totalCount?: number
   }>(),
   {
     title: '',
@@ -24,12 +24,18 @@ const props = withDefaults(
       currentPage: 0,
       pageSize: 10
     }),
-    listCount: 0
+    totalCount: 0
   }
 )
-
-const handleSizeChange = () => {}
-const handleCurrentChange = () => {}
+const emits = defineEmits(['update:page'])
+const handleSizeChange = (pageSize: number) => {
+  // console.log(pageSize)
+  emits('update:page', { ...props.page, pageSize })
+}
+const handleCurrentChange = (currentPage: number) => {
+  // console.log(currentPage)
+  emits('update:page', { ...props.page, currentPage })
+}
 </script>
 
 <template>
@@ -81,7 +87,7 @@ const handleCurrentChange = () => {}
         :page-sizes="[10, 20, 30]"
         v-model:page-size="page.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="listCount"
+        :total="totalCount"
         background
       />
     </slot>

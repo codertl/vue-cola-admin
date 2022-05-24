@@ -1,13 +1,17 @@
 <script setup lang="ts">
+import { ref, computed, watchEffect, watch } from 'vue'
 import TlTable from '@/base-ui/table'
 import type { IContentTableConfig, IProp } from '@/base-ui/table/types'
 
 import { Edit, Delete, Plus } from '@element-plus/icons-vue'
 
 import { formatUtcTime } from '@/utils/date-format'
+
+import { useSystemStore } from '@/stores/system'
+
 const props = defineProps<{
   contentTableConfig: IContentTableConfig
-  tableData: any[]
+  pageName: string
 }>()
 const emits = defineEmits(['editClick', 'deleteClick'])
 // 其他slot
@@ -19,6 +23,29 @@ const otherPropSlot: IProp[] = props.contentTableConfig.propList.filter(
     if (item.slotName) return true
   }
 )
+const systemStore = useSystemStore()
+
+// 处理分页
+// 双向绑定pageInfo
+const pageInfo = ref({ currentPage: 1, pageSize: 10 })
+// pagInfo 发生改变时触发一次请求，默认请求一次
+watch(
+  () => pageInfo.value,
+  () => {
+    systemStore.getPageList({
+      pageName: props.pageName,
+      queryInfo: {
+        offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+        size: pageInfo.value.pageSize
+      }
+    })
+  },
+  {
+    immediate: true
+  }
+)
+const tableData = computed(() => systemStore[`${props.pageName}List`])
+const totalCount = computed(() => systemStore[`${props.pageName}Count`])
 
 // 增 / 删 / 改 操作
 const handleAddClick = () => {}
@@ -33,7 +60,12 @@ const handlerDeleteClick = (item: any) => {
 <template>
   <el-divider />
   <div class="page-content">
-    <tl-table v-bind="contentTableConfig" :tableData="tableData">
+    <tl-table
+      v-bind="contentTableConfig"
+      :tableData="tableData"
+      :totalCount="totalCount"
+      v-model:page="pageInfo"
+    >
       <!-- 头部操作按钮 -->
       <template #handlerHead>
         <el-button type="primary" :icon="Plus" @click="handleAddClick"
