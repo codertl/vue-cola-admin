@@ -10,7 +10,7 @@ const props = withDefaults(
   defineProps<{
     tableData: any[]
     title?: string
-    propList: IProp[]
+    formItems: IProp[]
     showIndexColumn?: boolean
     showSelectColumn?: boolean
     page?: IPage
@@ -61,7 +61,7 @@ const handleCurrentChange = (currentPage: number) => {
       width="60"
       align="center"
     />
-    <template v-for="item in propList" :key="item.prop">
+    <template v-for="item in formItems" :key="item.prop">
       <el-table-column
         v-bind="item"
         align="center"

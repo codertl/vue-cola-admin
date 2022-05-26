@@ -10,10 +10,9 @@ import illustration5 from '@/assets/login/illustration5.svg?component'
 import illustration6 from '@/assets/login/illustration6.svg?component'
 import illustration7 from '@/assets/login/illustration7.svg?component'
 
+import { useLoginStore } from '@/stores/login'
 
-import { useUserStore } from '@/stores/user'
-
-const userStore = useUserStore()
+const loginStore = useLoginStore()
 // 周一至周日都会切换不同的插画
 const currentIllustration = computed(() => {
   switch (new Date().getDay()) {
@@ -50,7 +49,7 @@ const user = ref('coderwhy')
 const password = ref('123456')
 
 const handleLoginBtn = () => {
-  userStore.getLoginData({
+  loginStore.getLoginData({
     name: user.value,
     password: password.value
   })

@@ -6,6 +6,8 @@ import type { IForm } from '@/base-ui/form/types'
 const props = defineProps<{
   searchFormConfig: IForm
 }>()
+
+const emits = defineEmits(['search', 'reset'])
 // 双向绑定属性是有config里的field决定
 //实现表单组件双向绑定
 const formItems = props.searchFormConfig.formItems ?? []
@@ -20,11 +22,14 @@ const formData = ref({ ...formOriginData })
 //触发重置
 const handleReset = () => {
   formData.value = formOriginData
+  emits('reset')
 }
 
 // 触发搜索
 const handleSearch = () => {
   console.log('搜索')
+  emits('search', formData.value)
+  formData.value = formOriginData
 }
 </script>
 

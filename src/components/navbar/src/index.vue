@@ -33,14 +33,13 @@
 <script setup lang="ts">
 import { ref, unref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+import { useLoginStore } from '@/stores/login'
 import { mapPathToBreadcrumbs } from '@/utils/map-menus'
 
 import Breadcrumb from '@/components/breadcrumb'
 import avatar from '@/assets/avatar.jpg'
 
 import { useFullscreen } from '@vueuse/core'
-import { ClickOutside as vClickOutside } from 'element-plus'
 // 全屏切换
 const { toggle } = useFullscreen()
 const emit = defineEmits(['changeFold'])
@@ -52,7 +51,7 @@ const handleFold = () => {
 }
 
 const route = useRoute()
-const userStore = useUserStore()
+const userStore = useLoginStore()
 
 // 获取面包屑
 const breadcrumbs = computed(() => {

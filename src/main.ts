@@ -7,7 +7,7 @@ import elementPlus from './plugin/element-plus'
 import 'element-plus/dist/index.css'
 import { MotionPlugin } from '@vueuse/motion'
 import 'normalize.css'
-import { useUserStore } from '@/stores/user'
+import { useLoginStore } from '@/stores/login'
 // 统一导入 element 图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
@@ -15,8 +15,8 @@ const pinia = createPinia()
 
 const app = createApp(App)
 app.use(pinia)
-const userStore = useUserStore()
-userStore.initState()
+const loginStore = useLoginStore()
+loginStore.initState()
 app.use(router)
 app.use(MotionPlugin)
 app.use(elementPlus)

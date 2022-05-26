@@ -2,6 +2,7 @@
 import { IFormItem, IColLayout } from '../types'
 const props = withDefaults(
   defineProps<{
+    title?: string
     modelValue: any
     formItems: IFormItem[]
     labelWidth?: string

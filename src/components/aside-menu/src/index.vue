@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+import { useLoginStore } from '@/stores/login'
 import { stringFragment } from '@/utils/string-fragment'
 import { mapPathToMenu, SubMenu } from '@/utils/map-menus'
 import avatar from '@/assets/login/cola.svg?component'
@@ -16,10 +16,10 @@ const props = withDefaults(
 )
 const router = useRouter()
 const route = useRoute()
-const userStore = useUserStore()
+const loginStore = useLoginStore()
 
 // 渲染侧边栏的数据
-const userMenu = computed(() => userStore.userMenu)
+const userMenu = computed(() => loginStore.userMenu)
 
 const currentPath = route.path
 const currentMenu: SubMenu = mapPathToMenu(currentPath, userMenu.value)

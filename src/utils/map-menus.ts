@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import type { IUserMenu } from '@/stores/user'
+import type { IUserMenu } from '@/stores/login'
 import { Breadcrumbs } from '@/components/breadcrumb/src/types'
 export let firstRoute: any = null
 // 通过菜单映射到路由

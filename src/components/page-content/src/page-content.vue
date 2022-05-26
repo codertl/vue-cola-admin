@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import TlTable from '@/base-ui/table'
 import type { IContentTableConfig, IProp } from '@/base-ui/table/types'
 
@@ -13,9 +13,9 @@ const props = defineProps<{
   contentTableConfig: IContentTableConfig
   pageName: string
 }>()
-const emits = defineEmits(['editClick', 'deleteClick'])
+const emits = defineEmits(['editClick', 'addClick'])
 // 其他slot
-const otherPropSlot: IProp[] = props.contentTableConfig.propList.filter(
+const otherPropSlot: IProp[] = props.contentTableConfig.formItems.filter(
   (item) => {
     if (item.slotName === 'handler') return false
     if (item.slotName === 'createAt') return false
@@ -28,17 +28,22 @@ const systemStore = useSystemStore()
 // 处理分页
 // 双向绑定pageInfo
 const pageInfo = ref({ currentPage: 1, pageSize: 10 })
+
+const getPageData = (queryParams: any = {}) => {
+  systemStore.getPageList({
+    pageName: props.pageName,
+    queryInfo: {
+      offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
+      size: pageInfo.value.pageSize,
+      ...queryParams
+    }
+  })
+}
 // pagInfo 发生改变时触发一次请求，默认请求一次
 watch(
   () => pageInfo.value,
   () => {
-    systemStore.getPageList({
-      pageName: props.pageName,
-      queryInfo: {
-        offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
-        size: pageInfo.value.pageSize
-      }
-    })
+    getPageData()
   },
   {
     immediate: true
@@ -48,14 +53,24 @@ const tableData = computed(() => systemStore[`${props.pageName}List`])
 const totalCount = computed(() => systemStore[`${props.pageName}Count`])
 
 // 增 / 删 / 改 操作
-const handleAddClick = () => {}
+const handleAddClick = () => {
+  emits('addClick')
+}
 const handleMuchDelClcik = () => {}
 const handlerEditClick = (item: any) => {
   emits('editClick', item)
 }
 const handlerDeleteClick = (item: any) => {
-  emits('deleteClick', item)
+  // console.log(item)
+  systemStore.deletePageDataAction({
+    pageName: props.pageName,
+    id: item.id
+  })
 }
+
+defineExpose({
+  getPageData
+})
 </script>
 <template>
   <el-divider />
@@ -90,13 +105,13 @@ const handlerDeleteClick = (item: any) => {
           type="primary"
           :icon="Edit"
           circle
-          @click="handlerEditClick"
+          @click="handlerEditClick(scope.row)"
         />
         <el-button
           type="danger"
           :icon="Delete"
           circle
-          @click="handlerDeleteClick"
+          @click="handlerDeleteClick(scope.row)"
         />
       </template>
 

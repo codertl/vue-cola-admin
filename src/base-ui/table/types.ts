@@ -7,7 +7,7 @@ export interface IProp {
 
 export interface IContentTableConfig {
   title?: string
-  propList: IProp[]
+  formItems: IProp[]
   showIndexColumn?: boolean
   showSelectColumn?: boolean
 }

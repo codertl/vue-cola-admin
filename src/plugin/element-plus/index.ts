@@ -27,7 +27,8 @@ import {
   ElTableColumn,
   ElPagination,
   ElDivider,
-  ElSwitch
+  ElSwitch,
+  ElDialog
 } from 'element-plus'
 
 const components = [
@@ -58,7 +59,8 @@ const components = [
   ElTableColumn,
   ElPagination,
   ElDivider,
-  ElSwitch
+  ElSwitch,
+  ElDialog
 ]
 
 export default function (app: App) {

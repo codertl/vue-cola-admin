@@ -1,7 +1,7 @@
 export const contentTableConfig = {
   // 标题
   title: '用户列表',
-  propList: [
+  formItems: [
     { prop: 'name', label: '用户名', minWidth: '100' },
     { prop: 'realname', label: '真实姓名', minWidth: '100' },
     { prop: 'cellphone', label: '手机号', minWidth: '100' },
