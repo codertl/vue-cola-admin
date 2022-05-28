@@ -73,3 +73,37 @@ export function mapPathToBreadcrumbs(path: string, menus: SubMenu[] | any) {
   mapPathToMenu(path, menus, breadcrumbs)
   return breadcrumbs
 }
+
+export function mapMenusToPermission(userMenus: any) {
+  const permission: string[] = []
+
+  function _recurseGetPermission(userMenus: any) {
+    for (const menu of userMenus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermission(menu.children ?? [])
+      } else if (menu.type === 3) {
+        permission.push(menu.permission)
+      }
+    }
+  }
+  _recurseGetPermission(userMenus)
+
+  return permission
+}
+
+export function menuMapLeafKeys(menu: any) {
+  const leafKeys: number[] = []
+
+  function _recurseGetLeaf(menu: any) {
+    for (const item of menu) {
+      if (item.children) {
+        _recurseGetLeaf(item.children)
+      } else {
+        leafKeys.push(item.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menu)
+
+  return leafKeys
+}

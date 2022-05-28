@@ -9,22 +9,26 @@ interface IPage {
 const props = withDefaults(
   defineProps<{
     tableData: any[]
+    childrenProps?: any
     title?: string
     formItems: IProp[]
     showIndexColumn?: boolean
     showSelectColumn?: boolean
     page?: IPage
     totalCount?: number
+    showPagination?: boolean
   }>(),
   {
     title: '',
     showIndexColumn: false,
     showSelectColumn: false,
+    childrenProps: {},
     page: () => ({
       currentPage: 0,
       pageSize: 10
     }),
-    totalCount: 0
+    totalCount: 0,
+    showPagination: true
   }
 )
 const emits = defineEmits(['update:page'])
@@ -45,7 +49,7 @@ const handleCurrentChange = (currentPage: number) => {
       <slot name="handlerHead"></slot>
     </div>
   </div>
-  <el-table style="width: 100%" :data="tableData">
+  <el-table style="width: 100%" :data="tableData" v-bind="childrenProps">
     <!-- 多选 -->
     <el-table-column
       v-if="showSelectColumn"
@@ -78,7 +82,7 @@ const handleCurrentChange = (currentPage: number) => {
       </el-table-column>
     </template>
   </el-table>
-  <div class="pagination">
+  <div class="pagination" v-if="showPagination">
     <slot>
       <el-pagination
         @size-change="handleSizeChange"

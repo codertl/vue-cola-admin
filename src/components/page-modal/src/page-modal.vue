@@ -7,6 +7,7 @@ import { editPageData } from '@/network/api/main'
 const props = defineProps<{
   modalConfig: any
   defaultInfo: any
+  otherInfo?: any
   title: string
   pageName: string
 }>()
@@ -31,20 +32,20 @@ const handleConfirmClick = () => {
     // 修改
     console.log({
       pageName: props.pageName,
-      editData: { ...formData.value },
+      editData: { ...formData.value, ...props.otherInfo },
       id: props.defaultInfo.id
     })
     const url = `/${props.pageName}/${props.defaultInfo.id}`
     // editPageData(url, { ...formData.value })
     systemStore.editPageDataAction({
       pageName: props.pageName,
-      editData: { ...formData.value },
+      editData: { ...formData.value, ...props.otherInfo },
       id: props.defaultInfo.id
     })
   } else {
     systemStore.createPageDataAction({
       pageName: props.pageName,
-      newData: { ...formData.value }
+      newData: { ...formData.value, ...props.otherInfo }
     })
   }
 }
@@ -66,6 +67,7 @@ defineExpose({
       v-model="formData"
       :colLayout="{ span: 24 }"
     ></tl-form>
+    <slot></slot>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>

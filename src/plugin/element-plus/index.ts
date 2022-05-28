@@ -28,7 +28,9 @@ import {
   ElPagination,
   ElDivider,
   ElSwitch,
-  ElDialog
+  ElDialog,
+  ElImage,
+  ElTree
 } from 'element-plus'
 
 const components = [
@@ -60,7 +62,9 @@ const components = [
   ElPagination,
   ElDivider,
   ElSwitch,
-  ElDialog
+  ElDialog,
+  ElImage,
+  ElTree
 ]
 
 export default function (app: App) {

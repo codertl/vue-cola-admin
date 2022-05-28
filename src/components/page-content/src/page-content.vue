@@ -8,12 +8,19 @@ import { Edit, Delete, Plus } from '@element-plus/icons-vue'
 import { formatUtcTime } from '@/utils/date-format'
 
 import { useSystemStore } from '@/stores/system'
-
+import { usePermission } from '@/hooks/usePermission'
 const props = defineProps<{
   contentTableConfig: IContentTableConfig
   pageName: string
 }>()
 const emits = defineEmits(['editClick', 'addClick'])
+
+// 获取按钮操作权限
+const isCreate = usePermission(props.pageName, 'create')
+const isDelete = usePermission(props.pageName, 'delete')
+const isUpdate = usePermission(props.pageName, 'update')
+const isQuery = usePermission(props.pageName, 'query')
+
 // 其他slot
 const otherPropSlot: IProp[] = props.contentTableConfig.formItems.filter(
   (item) => {
@@ -73,7 +80,7 @@ defineExpose({
 })
 </script>
 <template>
-  <el-divider />
+  <!-- <el-divider /> -->
   <div class="page-content">
     <tl-table
       v-bind="contentTableConfig"
@@ -83,10 +90,18 @@ defineExpose({
     >
       <!-- 头部操作按钮 -->
       <template #handlerHead>
-        <el-button type="primary" :icon="Plus" @click="handleAddClick"
+        <el-button
+          v-if="isCreate"
+          type="primary"
+          :icon="Plus"
+          @click="handleAddClick"
           >新增</el-button
         >
-        <el-button type="danger" :icon="Delete" @click="handleMuchDelClcik"
+        <el-button
+          v-if="isDelete"
+          type="danger"
+          :icon="Delete"
+          @click="handleMuchDelClcik"
           >删除</el-button
         >
       </template>
@@ -102,12 +117,14 @@ defineExpose({
       <!-- 操作 -->
       <template #handler="scope">
         <el-button
+          v-if="isUpdate"
           type="primary"
           :icon="Edit"
           circle
           @click="handlerEditClick(scope.row)"
         />
         <el-button
+          v-if="isDelete"
           type="danger"
           :icon="Delete"
           circle

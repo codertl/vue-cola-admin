@@ -5,7 +5,7 @@ import router from '@/router'
 import { loginRequest, getUserInfo, getUserMenu } from '@/network/api/login'
 import type { Account } from '@/network/api/login/types'
 import cache from '@/utils/local-cache'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusToPermission } from '@/utils/map-menus'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from './user'
 export interface IUserInfo {
@@ -33,6 +33,7 @@ export const useLoginStore = defineStore('login', () => {
   const token = ref<string>('')
   const userInfo = ref<IUserInfo>()
   const userMenu = ref<IUserMenu[]>()
+  const userPermission = ref<string[]>()
   async function getLoginData(account: Account) {
     try {
       const { token: reToken, id } = await loginRequest(account)
@@ -50,11 +51,15 @@ export const useLoginStore = defineStore('login', () => {
       const reUserMenu = await getUserMenu(id)
       userMenu.value = reUserMenu
       cache.setCache('userMenu', reUserMenu ?? '')
+      // 添加用户按钮权限
+      const permission = mapMenusToPermission(userMenu.value)
+      userPermission.value = permission
+
       const userRoutes = await mapMenusToRoutes(reUserMenu)
       userRoutes.forEach((route) => {
         router.addRoute('main', route)
       })
-      console.log(userRoutes)
+
       // 登录成功提示
       ElMessage({
         message: '登录成功',
@@ -85,6 +90,10 @@ export const useLoginStore = defineStore('login', () => {
     const cacheUserMenu = cache.getCache('userMenu')
     if (cacheUserMenu) {
       userMenu.value = cacheUserMenu
+      // 添加用户按钮权限
+      const permission = mapMenusToPermission(userMenu.value)
+      userPermission.value = permission
+
       const userRoutes = mapMenusToRoutes(cacheUserMenu)
       userRoutes.forEach((route) => {
         router.addRoute('main', route)
@@ -95,6 +104,7 @@ export const useLoginStore = defineStore('login', () => {
     token,
     userInfo,
     userMenu,
+    userPermission,
     getLoginData,
     initState
   }

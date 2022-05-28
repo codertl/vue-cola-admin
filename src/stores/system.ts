@@ -8,7 +8,17 @@ import {
 export const useSystemStore = defineStore('system', {
   state: () => ({
     usersList: [],
-    usersCount: 0
+    usersCount: 0,
+    departmentList: [],
+    departmentCount: 0,
+    roleList: [],
+    roleCount: 0,
+    categoryList: [],
+    categoryCount: 0,
+    goodsList: [],
+    goodsCount: 0,
+    menuList: [],
+    menuCount: 0
   }),
   actions: {
     async getPageList(payload: any) {
@@ -17,8 +27,8 @@ export const useSystemStore = defineStore('system', {
         pageUrl,
         payload.queryInfo
       )
-      this.usersList = list
-      this.usersCount = totalCount
+      this[`${payload.pageName}List`] = list
+      this[`${payload.pageName}Count`] = totalCount
     },
     async editPageDataAction(payload: any) {
       const { pageName, id, editData } = payload
